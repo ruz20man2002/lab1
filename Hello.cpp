@@ -4,5 +4,7 @@
 
 int main() {
     std::cout << "Hello World 2!";
+     std::cout << "Armen!";
     return 0;
 }
+
