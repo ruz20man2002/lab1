@@ -22,3 +22,8 @@ jobs:
 
     - name: Run program
       run: g++ Hello.cpp
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-report
+        path: a.out
