@@ -1,9 +1,11 @@
 name: C/C++ CI
-
+   
+on:
+  workflow_dispatch:
+  
 permissions:
    contents: write
-   
-on: [push]
+  
 env:
   FILE_NAME: Hello.cpp
 
