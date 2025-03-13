@@ -42,21 +42,3 @@ jobs:
           git config --local user.email "ruzannaman2002@gmail.com"
           git config --local user.name "Ruzanna"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-    - name: Create Tag
-      id: create_tag
-      run: |
-        git tag v1${{ steps.git_short_hash.outputs.hash }}
-        git push origin v1${{ steps.git_short_hash.outputs.hash }}
-
-    - name: 'Get Previous tag'
-      id: previous_tag
-      uses: "WyriHaximus/github-action-get-previous-tag@v1"
-      with:
-        fallback: 1.0.0
-     
-    - name: Release        
-      uses: softprops/action-gh-release@v1
-      with:
-          tag_name: ${{steps.previous_tag.outputs.tag}}
-          files: ${{steps.sign_app.outputs.signedReleaseFile}}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
