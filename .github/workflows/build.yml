@@ -13,7 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        filename: [Hello.cpp, Hello2.cpp, Hello3.cpp]
+        include: 
+          - inputname: Hello.cpp
+            outputname: Hello.out
+          - inputname: Hello2.cpp
+            outputname: Hello2.out
+          - inputname: Hello3.cpp
+            outputname: Hello3.out
+            
+        
+        
+   
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
