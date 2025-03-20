@@ -7,7 +7,6 @@ permissions:
    contents: write
   
 
-
 jobs:
   ubuntu-build:
     runs-on: ubuntu-latest
@@ -21,9 +20,6 @@ jobs:
           - inputname: Hello3.cpp
             outputname: Hello3.out
             
-        
-        
-   
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
@@ -40,12 +36,13 @@ jobs:
         g++ --version
 
     - name: Run program
-      run: g++ ${{ matrix.filename }}
+      run: g++ ${{ matrix.inputname }} -o ${{ matrix.outputname }}
+
     - name: Archive code coverage results
       uses: actions/upload-artifact@v4
       with:
         name: code-coverage-report
-        path: a.out
+        path: ${{ matrix.outputname }}
 
     - name: Configure git to use GitHub Actions token
       run: |
