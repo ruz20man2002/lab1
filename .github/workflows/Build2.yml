@@ -1,0 +1,51 @@
+name: Build2
+   
+on:
+  workflow_run:
+    workflows: ["Build2"]
+    types:
+      - completed
+  
+
+jobs:
+  ubuntu-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: 
+          - inputname: Hello.cpp
+            outputname: Hello.out
+          - inputname: Hello2.cpp
+            outputname: Hello2.out
+          - inputname: Hello3.cpp
+            outputname: Hello3.out
+            
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.0.0
+
+    - name: Setup C/C++ Compiler
+      id: setup-compiler
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: gcc-latest
+
+    - name: Verify GCC Installation
+      run: |
+        gcc --version
+        g++ --version
+
+    - name: Run program
+      run: g++ ${{ matrix.inputname }} -o ${{ matrix.outputname }}
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-report-${{ matrix.outputname }}
+        path: ${{ matrix.outputname }}
+
+    - name: Configure git to use GitHub Actions token
+      run: |
+          git config --local user.email "ruzannaman2002@gmail.com"
+          git config --local user.name "Ruzanna"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
